@@ -1,0 +1,10 @@
+{
+    "ENDFtk": [
+        {"name": "Log", "tag": "build/fetchcontent"},
+        {"name": "catch-adapter", "tag": "build/fetchcontent"},
+        {"name": "disco", "tag": "build/fetchcontent"},
+        {"name": "hana-adapter", "tag": "build/fetchcontent"},
+        {"name": "header-utilities", "tag": "build/fetchcontent"},
+        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+    ]
+}

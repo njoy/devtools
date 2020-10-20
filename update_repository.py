@@ -1,0 +1,112 @@
+# system imports
+import argparse
+import json
+import os
+
+# local imports
+import devtools.build_system as build
+from devtools.dependencies import ReleaseDependencies
+
+
+def main():
+
+    # parse input arguments
+    args = process_input()
+
+    # make the build system
+    make_build_system(args)
+
+
+def process_input():
+    """ Use argparse for command line input processing.
+
+    """
+
+    parser = argparse.ArgumentParser(
+        description='Update build system for a given repository '
+                    'in the NJOY framework.'
+        )
+
+    # required input
+    parser.add_argument(
+        'path',
+        type=str,
+        help='path to repository'
+        )
+
+    # optional inputs
+    parser.add_argument(
+        '--name', '-n',
+        type=str,
+        help='repository name',
+        default=None
+        )
+    parser.add_argument(
+        '--dependencies', '-d',
+        type=str,
+        help='dependency file',
+        default='dependencies.json'
+        )
+    parser.add_argument(
+        '--build_dir', '-b',
+        type=str,
+        help='build directory (relative to path)',
+        default='bin'
+        )
+
+    # exclusive group
+    group = parser.add_mutually_exclusive_group(required=False)
+    group.add_argument(
+        '--develop',
+        action='store_false',
+        dest='release',
+        help='Create develop_dependencies.cmake file (default)',
+        default=False
+        )    
+    group.add_argument(
+        '--release',
+        action='store_true',
+        dest='release',
+        help='Create release_dependencies.cmake file'
+        )    
+
+    # parse and return
+    args = parser.parse_args()
+    return args
+
+
+def make_build_system(args):
+
+    b = build.BuildSystem(
+        args.path,
+        args.name
+        ) 
+
+    if args.release:
+        # Release dependencies are taken from examining the
+        # build/_deps folder
+
+        b.dependencies = ReleaseDependencies(
+            os.path.join(
+                args.path,
+                args.build_dir,
+                '_deps'
+                )
+            )
+
+    else:
+        # Develop dependencies are given in an input JSON file
+
+        with open(args.dependencies, 'r') as f:
+            dependencies = json.load(f)
+
+        b.dependencies = dependencies[b.name]
+
+    b.write_dependencies()
+    if not args.release:
+        b.write_cmakelists()
+        b.write_test_list()
+
+
+if __name__ == '__main__':
+    main()
