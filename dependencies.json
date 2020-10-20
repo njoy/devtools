@@ -6,5 +6,15 @@
         {"name": "hana-adapter", "tag": "build/fetchcontent"},
         {"name": "header-utilities", "tag": "build/fetchcontent"},
         {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+    ],
+    "thermr": [
+        {"name": "ENDFtk", "tag": "build/fetchcontent"},
+        {"name": "catch-adapter", "tag": "build/fetchcontent"},
+        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+    ],
+    "leapr": [
+        {"name": "ENDFtk", "tag": "build/fetchcontent"},
+        {"name": "catch-adapter", "tag": "build/fetchcontent"},
+        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
     ]
 }
