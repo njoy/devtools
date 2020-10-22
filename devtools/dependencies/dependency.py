@@ -10,7 +10,8 @@ class Dependency:
             name=None,
             remote=None,
             branch=None,
-            tag=None
+            tag=None,
+            setup=None
             ):
         """ Container for a dependency.
 
@@ -27,6 +28,9 @@ class Dependency:
         self._remote = remote
         self._tag = tag
         self._branch = branch
+
+        # simple attributes
+        self.setup = setup
 
 
     ###################################################################
@@ -147,6 +151,9 @@ class Dependency:
             result += '    GIT_SHALLOW     TRUE\n'
 
         result += '    )\n'
+
+        if self.setup:
+            result += self.setup + '\n'
 
         return result
 

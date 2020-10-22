@@ -31,7 +31,8 @@
     "Log": [
         "catch-adapter",
         {"remote": "https://github.com/gabime/spdlog",
-         "tag": "a51b4856377a71f81b6d74b9af459305c4c644f8"}
+         "tag": "a51b4856377a71f81b6d74b9af459305c4c644f8",
+         "setup": "set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )"}
     ],
     "GNDStk": [
         "catch-adapter",
