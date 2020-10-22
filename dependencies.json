@@ -8,15 +8,15 @@
         "range-v3-adapter"
     ],
     "ACEtk": [
-        {"name": "Log", "tag": "build/fetchcontent"},
-        {"name": "catch-adapter", "tag": "build/fetchcontent"},
-        {"name": "date-adapter", "tag": "update/subtree"},
-        {"name": "DimensionalAnalysis", "tag": "build/fetchcontent"},
-        {"name": "disco", "tag": "build/fetchcontent"},
-        {"name": "interpolation", "tag": "build/fetchcontent"},
-        {"name": "hana-adapter", "tag": "build/fetchcontent"},
-        {"name": "header-utilities", "tag": "build/fetchcontent"},
-        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+        "Log",
+        "catch-adapter",
+        "date-adapter",
+        "DimensionalAnalysis",
+        "disco",
+        "interpolation",
+        "hana-adapter",
+        "header-utilities",
+        "range-v3-adapter"
     ],
     "thermr": [
         "ENDFtk",
