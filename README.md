@@ -16,10 +16,11 @@ Each supported component's list of dependencies is included in the `dependencies
 
 The JSON file requires an entry with the same name as the component, as specified on the command line or inferred from the path.  That entry should have a list of dictionaries, each representing a dependency.
 
-Dependencies must specify `"name"` or `"remote"`.  If `"name"` is specified without  `"remote"`, the remote is assumed to be `https://github.com/njoy/{name}`.  If only  `"remote"` is specified,  `"name"` is assumed to be the basename of the path.  Both can be specified, which is necessary when the basename of the remote does not match the name, e.g. dimwits/DimensionalAnalysis.
+Dependencies can be a string, which is taken as the name of the repository, assumed to be on the NJOY project on GitHub and using the default branch.  Otherwise, dependencies can be a dictionary, where more options can be specified.
 
-Specifying `"tag"` is optional, and it defaults to the master branch.  This file should include primarily live-at-head dependencies, so specifying a branch is typical.  However, perhaps in the case of a third-party dependency or in an overridden dependency file, a specific Git commit hash or Git tag can be used instead.  In this case, `"live_at_head": False` should be included in the dependency's dictionary.
+Dependencies specified as a dictionary must include `"name"` or `"remote"`.  If `"name"` is included without  `"remote"`, the remote is assumed to be `https://github.com/njoy/{name}`.  If only  `"remote"` is specified,  `"name"` is assumed to be the basename of the path.  Both can be included, which is necessary when the basename of the remote does not match the name, e.g. dimwits/DimensionalAnalysis.
 
+Including `"tag"` or `"branch"` is optional, and if neither is provided, it defaults to the master branch.  If both are provided, an error occurs.  This file should include primarily live-at-head dependencies, so specifying a branch is typical.  However, perhaps in the case of a third-party dependency or in an overridden dependency file, a specific Git commit hash or Git tag can be used instead.
 
 ## LICENSE
 This software is copyrighted by Los Alamos National Laboratory and distributed according to the conditions in the accompanying [LICENSE](LICENSE) file.

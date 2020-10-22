@@ -1,20 +1,100 @@
 {
     "ENDFtk": [
-        {"name": "Log", "tag": "build/fetchcontent"},
-        {"name": "catch-adapter", "tag": "build/fetchcontent"},
-        {"name": "disco", "tag": "build/fetchcontent"},
-        {"name": "hana-adapter", "tag": "build/fetchcontent"},
-        {"name": "header-utilities", "tag": "build/fetchcontent"},
-        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+        "Log",
+        "catch-adapter",
+        "disco",
+        "hana-adapter",
+        "header-utilities",
+        "range-v3-adapter"
     ],
     "thermr": [
-        {"name": "ENDFtk", "tag": "build/fetchcontent"},
-        {"name": "catch-adapter", "tag": "build/fetchcontent"},
-        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+        "ENDFtk",
+        "catch-adapter",
+        "range-v3-adapter"
     ],
     "leapr": [
-        {"name": "ENDFtk", "tag": "build/fetchcontent"},
-        {"name": "catch-adapter", "tag": "build/fetchcontent"},
-        {"name": "range-v3-adapter", "tag": "build/fetchcontent"}
+        "ENDFtk",
+        "catch-adapter",
+        "range-v3-adapter"
+    ],
+    "Log": [
+        "catch-adapter",
+        {"remote": "https://github.com/gabime/spdlog",
+         "tag": "a51b4856377a71f81b6d74b9af459305c4c644f8"}
+    ],
+    "GNDStk": [
+        "catch-adapter",
+        "Log",
+        "pugixml-adapter",
+        "json-adapter"
+    ],
+    "NJOY2016": false,
+    "RECONR": [
+        "ENDFtk",
+        "catch-adapter",
+        "constants",
+        "resonanceReconstruction",
+        "Log",
+        "twig",
+        {"remote": "https://github.com/nlohmann/json",
+         "tag": "v3.7.3"},
+        "interpolation",
+        "elementary"
+    ],
+    "catch-adapter": false,
+    "constants": [
+        "range-v3-adapter",
+        "catch-adapter",
+        "Log",
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} 
+    ],
+    "dimwits": [
+        "catch-adapter",
+        "hana-adapter"
+    ],
+    "disco": [
+        "catch-adapter"
+    ],
+    "elementary": [
+        "catch-adapter"
+    ],
+    "hana-adapter": false,
+    "header-utilities": [
+        "catch-adapter",
+        "Log"
+    ],
+    "interpolation": [
+        "range-v3-adapter",
+        "Log",
+        "header-utilities",
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
+    ],
+    "json-adapter": false,
+    "lipservice": [
+        "ENDFtk",
+        "catch-adapter",
+        "hana-adapter",
+        "json-adapter",
+        "utility"
+    ],
+    "njoy_c_bindings": [
+        "NJOY2016"
+    ],
+    "resonanceReconstruction": [
+        "ENDFtk",
+        "eigen-adapter",
+        "interpolation",
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"},
+        "elementary"
+    ],
+    "tclap-adapter": false,
+    "eigen-adapter": false,
+    "pugixml-adapter": false,
+    "twig": [
+        "catch-adapter"
+    ],
+    "utility": [
+        "catch-adapter",
+        "header-utilities"
     ]
 }

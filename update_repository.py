@@ -5,7 +5,7 @@ import os
 
 # local imports
 import devtools.build_system as build
-from devtools.dependencies import ReleaseDependencies
+from devtools.dependencies import ReleaseDependencies, Dependency
 
 
 def main():
@@ -48,10 +48,16 @@ def process_input():
         default='dependencies.json'
         )
     parser.add_argument(
-        '--build_dir', '-b',
+        '--build-dir', '-b',
         type=str,
         help='build directory (relative to path)',
         default='bin'
+        )
+    parser.add_argument(
+        '--default-branch',
+        type=str,
+        help='default branch to use for live-at-head dependencies',
+        default='master'
         )
 
     # exclusive group
@@ -77,6 +83,8 @@ def process_input():
 
 def make_build_system(args):
 
+    Dependency.default_branch = args.default_branch
+
     b = build.BuildSystem(
         args.path,
         args.name
@@ -100,7 +108,9 @@ def make_build_system(args):
         with open(args.dependencies, 'r') as f:
             dependencies = json.load(f)
 
-        b.dependencies = dependencies[b.name]
+        deps = dependencies[b.name]
+        if deps:
+            b.dependencies = deps
 
     b.write_dependencies()
     if not args.release:

@@ -109,6 +109,8 @@ class BuildSystem:
 
         # setup
         test_directories = self._tree.list_test_directories()
+        if not test_directories:
+            return
         self._cmake_directory()
 
         # filename to write output
@@ -295,6 +297,8 @@ class BuildSystem:
         """
 
         # setup
+        if not self._dependencies:
+            return
         self._cmake_directory()
 
         if isinstance(self.dependencies, ReleaseDependencies):

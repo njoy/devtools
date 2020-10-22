@@ -4,20 +4,29 @@ from textwrap import dedent
 
 class Dependency:
 
+    default_branch = 'master'
+
     def __init__(self,
             name=None,
             remote=None,
-            tag=None,
-            live_at_head=True):
+            branch=None,
+            tag=None
+            ):
         """ Container for a dependency.
 
         """
+
+        if tag and branch:
+            raise Exception("Must only supply tag or branch, not both.")
+
+        if not tag and not branch:
+            branch = self.default_branch
 
         # properties
         self._name = name
         self._remote = remote
         self._tag = tag
-        self._live_at_head = live_at_head
+        self._branch = branch
 
 
     ###################################################################
@@ -69,26 +78,40 @@ class Dependency:
         self._remote = value
 
     @property
+    def branch(self):
+        """ The repository tag (i.e., tag, commit hash, or branch name).
+
+        When setting, this must be a branch name, not a Git tag or
+        commit hash.
+
+        """
+
+        return self.tag
+
+    @branch.setter
+    def branch(self, value: str):
+        self._branch = value
+        self._tag = None
+
+    @property
     def tag(self):
         """ The repository tag (i.e., tag, commit hash, or branch name).
+
+        When setting, this must be a Git tag or commit hash, not a
+        branch name.
 
         """
 
         if self.live_at_head:
-            if self._tag:
-                return 'origin/' + self._tag
-            else:
-                return 'origin/master'
+            return 'origin/' + self._branch
 
         else:
-            if not self._tag:
-                raise Exception(
-                    'Dependency must have a tag if not live-at-head.')
             return self._tag
 
     @tag.setter
     def tag(self, value: str):
         self._tag = value
+        self._branch = None
 
     @property
     def live_at_head(self):
@@ -97,11 +120,7 @@ class Dependency:
 
         """
 
-        return self._live_at_head
-
-    @live_at_head.setter
-    def live_at_head(self, value: bool):
-        self._live_at_head = value
+        return True if self._branch else False
 
 
     ###################################################################
