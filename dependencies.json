@@ -11,7 +11,7 @@
         "Log",
         "catch-adapter",
         "date-adapter",
-        "DimensionalAnalysis",
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} ,
         "disco",
         "interpolation",
         "hana-adapter",
@@ -38,7 +38,10 @@
         "catch-adapter",
         "Log",
         "pugixml-adapter",
-        "json-adapter"
+        {"name": "nlohmann_json",
+         "remote": "https://github.com/nlohmann/json",
+         "tag": "v3.7.3",
+         "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"}
     ],
     "NJOY2016": false,
     "RECONR": [
@@ -48,8 +51,10 @@
         "resonanceReconstruction",
         "Log",
         "twig",
-        {"remote": "https://github.com/nlohmann/json",
-         "tag": "v3.7.3"},
+        {"name": "nlohmann_json",
+         "remote": "https://github.com/nlohmann/json",
+         "tag": "v3.7.3",
+         "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         "interpolation",
         "elementary"
     ],
@@ -81,16 +86,18 @@
         "header-utilities",
         {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
     ],
-    "json-adapter": false,
     "lipservice": [
         "ENDFtk",
         "catch-adapter",
         "hana-adapter",
-        "json-adapter",
+        {"name": "nlohmann_json",
+         "remote": "https://github.com/nlohmann/json",
+         "tag": "v3.7.3",
+         "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         "utility"
     ],
     "njoy_c_bindings": [
-        "NJOY2016"
+        {"name": "njoy", "remote": "https://github.com/njoy/NJOY2016"}
     ],
     "resonanceReconstruction": [
         "ENDFtk",
@@ -108,5 +115,15 @@
     "utility": [
         "catch-adapter",
         "header-utilities"
+    ],
+    "date-adapter": false,
+    "range-v3-adapter": false,
+    "NJOY21": [
+        "ENDFtk",
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} ,
+        "lipservice",
+        "njoy_c_bindings",
+        "tclap-adapter",
+        "utility"
     ]
 }

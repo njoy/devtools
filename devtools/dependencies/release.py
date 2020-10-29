@@ -37,7 +37,7 @@ class ReleaseDependencies(Dependencies):
         toplevel = os.getcwd()
         os.chdir(path)
 
-        for dir_ in os.listdir(os.getcwd()):
+        for dir_ in sorted(os.listdir(os.getcwd())):
             if not dir_.endswith('-src'):
                 continue
 
@@ -72,10 +72,9 @@ class ReleaseDependencies(Dependencies):
                 tag = tag.split('\n')[0]
 
             # query git commit
-            if not tag:
-                cmd = ['git', 'rev-parse', 'HEAD']
-                p = sp.Popen(cmd, stdout=sp.PIPE)
-                commit = p.communicate()[0].decode().strip()
+            cmd = ['git', 'rev-parse', 'HEAD']
+            p = sp.Popen(cmd, stdout=sp.PIPE)
+            commit = p.communicate()[0].decode().strip()
 
             # construct commit/tag pair
             if tag:
@@ -85,8 +84,7 @@ class ReleaseDependencies(Dependencies):
             dep = Dependency(
                 name=name,
                 remote=remote,
-                tag=commit,
-                live_at_head=False
+                tag=commit
                 )
             self.add_dependencies(dep)
 
