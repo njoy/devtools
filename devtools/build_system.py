@@ -201,6 +201,8 @@ class BuildSystem:
                     "Options for where to fetch repositories: develop, release, local"
                     )
                 
+                message( STATUS "Using ${{REPOSITORIES}} repositories" )
+
                 if( REPOSITORIES STREQUAL "develop" )
                     include( cmake/develop_dependencies.cmake )
                 
