@@ -6,7 +6,7 @@
         "hana-adapter",
         "header-utilities",
         {"name": "range-v3",
-         "remote":  "https://github.com/ericniebler/range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
          "tag": "0.11.0"}
     ],
     "ACEtk": [
@@ -52,7 +52,7 @@
          "tag": "v3.7.3",
          "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         {"name": "eigen",
-         "remote":  "https://gitlab.com/libeigen/eigen.git",
+         "remote": "https://gitlab.com/libeigen/eigen.git",
          "tag": "3.3.8",
          "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
         "ENDFtk",
@@ -88,7 +88,7 @@
     ],
     "interpolation": [
         {"name": "range-v3",
-         "remote":  "https://github.com/ericniebler/range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
          "tag": "0.11.0"},
         "Log",
         "header-utilities",
@@ -109,11 +109,11 @@
     ],
     "resonanceReconstruction": [
         {"name": "range-v3",
-         "remote":  "https://github.com/ericniebler/range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
          "tag": "0.11.0"},
         "ENDFtk",
         {"name": "eigen",
-         "remote":  "https://gitlab.com/libeigen/eigen.git",
+         "remote": "https://gitlab.com/libeigen/eigen.git",
          "tag": "3.3.8",
          "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
         "interpolation",
