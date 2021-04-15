@@ -5,7 +5,9 @@
         "disco",
         "hana-adapter",
         "header-utilities",
-        "range-v3-adapter"
+        {"name": "range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
+         "tag": "0.11.0"}
     ],
     "ACEtk": [
         "Log",
@@ -50,7 +52,7 @@
          "tag": "v3.7.3",
          "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         {"name": "eigen",
-         "remote":  "https://gitlab.com/libeigen/eigen.git",
+         "remote": "https://gitlab.com/libeigen/eigen.git",
          "tag": "3.3.8",
          "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
         "ENDFtk",
@@ -67,7 +69,7 @@
         "range-v3-adapter",
         "catch-adapter",
         "Log",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} 
+        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
     ],
     "dimwits": [
         "catch-adapter",
@@ -85,7 +87,9 @@
         "Log"
     ],
     "interpolation": [
-        "range-v3-adapter",
+        {"name": "range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
+         "tag": "0.11.0"},
         "Log",
         "header-utilities",
         {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
@@ -104,8 +108,14 @@
         {"name": "njoy", "remote": "https://github.com/njoy/NJOY2016"}
     ],
     "resonanceReconstruction": [
+        {"name": "range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
+         "tag": "0.11.0"},
         "ENDFtk",
-        "eigen-adapter",
+        {"name": "eigen",
+         "remote": "https://gitlab.com/libeigen/eigen.git",
+         "tag": "3.3.8",
+         "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
         "interpolation",
         {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"},
         "elementary"
