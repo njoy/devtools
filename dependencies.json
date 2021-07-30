@@ -12,13 +12,14 @@
     "ACEtk": [
         "Log",
         "catch-adapter",
-        "date-adapter",
         {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} ,
         "disco",
         "interpolation",
         "hana-adapter",
         "header-utilities",
-        "range-v3-adapter"
+        {"name": "range-v3",
+         "remote": "https://github.com/ericniebler/range-v3",
+         "tag": "0.11.0"}
     ],
     "thermr": [
         "ENDFtk",
