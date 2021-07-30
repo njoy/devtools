@@ -131,7 +131,6 @@
         "catch-adapter",
         "header-utilities"
     ],
-    "date-adapter": false,
     "range-v3-adapter": false,
     "NJOY21": [
         "ENDFtk",
