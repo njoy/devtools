@@ -113,6 +113,7 @@ def make_build_system(args):
             b.dependencies = deps
 
     b.write_dependencies()
+    b.write_installation_dependencies()
     if not args.release:
         b.write_cmakelists()
         b.write_test_list()
