@@ -138,7 +138,7 @@ class Dependency:
         """
 
         result = dedent("""\
-            FetchContent_Declare( {name}
+            shacl_FetchContent_Declare( {name}
                 GIT_REPOSITORY  {remote}
                 GIT_TAG         {tag}
             """).format(

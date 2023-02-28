@@ -67,8 +67,9 @@ class Dependencies:
 
         # preamble
         f.write(dedent("""\
-            cmake_minimum_required( VERSION 3.14 )
-            include( FetchContent )
+            cmake_minimum_required( VERSION 3.24 )
+            list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/.cmake)
+            include( shacl_FetchContent )
 
             """)
             )
@@ -91,7 +92,7 @@ class Dependencies:
             # Load dependencies
             #######################################################################
             
-            FetchContent_MakeAvailable(
+            shacl_FetchContent_MakeAvailable(
             """)
             )
         for dependency in self.dependencies:
@@ -102,7 +103,7 @@ class Dependencies:
         # Only look for testing library if testing is enabled
         if (any(dependency.name == "catch-adapter" for dependency in self.dependencies)):
             f.write('if (${{{0}_unit_tests}})\n'.format(libName))
-            f.write('    FetchContent_MakeAvailable(catch-adapter)\n')
+            f.write('    shacl_FetchContent_MakeAvailable(catch-adapter)\n')
             f.write('endif()\n\n')
 
         f.close()
