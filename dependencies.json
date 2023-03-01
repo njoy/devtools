@@ -6,19 +6,19 @@
         "hana-adapter",
         "header-utilities",
         {"name": "range-v3",
-         "remote": "https://github.com/ericniebler/range-v3",
+         "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"}
     ],
     "ACEtk": [
         "Log",
         "catch-adapter",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} ,
+        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
         "disco",
         "interpolation",
         "hana-adapter",
         "header-utilities",
         {"name": "range-v3",
-         "remote": "https://github.com/ericniebler/range-v3",
+         "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"}
     ],
     "thermr": [
@@ -33,7 +33,7 @@
     ],
     "Log": [
         "catch-adapter",
-        {"remote": "https://github.com/gabime/spdlog",
+        {"remote": "../../gabime/spdlog",
          "tag": "a51b4856377a71f81b6d74b9af459305c4c644f8",
          "setup": "set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )"}
     ],
@@ -42,14 +42,14 @@
         "Log",
         "pugixml-adapter",
         {"name": "nlohmann_json",
-         "remote": "https://github.com/nlohmann/json",
+         "remote": "../../nlohmann/json",
          "tag": "v3.7.3",
          "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"}
     ],
     "NJOY2016": false,
     "RECONR": [
         {"name": "nlohmann_json",
-         "remote": "https://github.com/nlohmann/json",
+         "remote": "../../nlohmann/json",
          "tag": "v3.7.3",
          "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         {"name": "eigen",
@@ -70,7 +70,7 @@
         "range-v3-adapter",
         "catch-adapter",
         "Log",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
+        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"}
     ],
     "dimwits": [
         "catch-adapter",
@@ -89,28 +89,28 @@
     ],
     "interpolation": [
         {"name": "range-v3",
-         "remote": "https://github.com/ericniebler/range-v3",
+         "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"},
         "Log",
         "header-utilities",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"}
+        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"}
     ],
     "lipservice": [
         "ENDFtk",
         "catch-adapter",
         "hana-adapter",
         {"name": "nlohmann_json",
-         "remote": "https://github.com/nlohmann/json",
+         "remote": "../../nlohmann/json",
          "tag": "v3.7.3",
          "setup": "set(JSON_BuildTests OFF CACHE INTERNAL \"\")"},
         "utility"
     ],
     "njoy_c_bindings": [
-        {"name": "njoy", "remote": "https://github.com/njoy/NJOY2016"}
+        {"name": "njoy", "remote": "../../njoy/NJOY2016"}
     ],
     "resonanceReconstruction": [
         {"name": "range-v3",
-         "remote": "https://github.com/ericniebler/range-v3",
+         "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"},
         "ENDFtk",
         {"name": "eigen",
@@ -118,7 +118,7 @@
          "tag": "3.3.8",
          "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
         "interpolation",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"},
+        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"},
         "elementary"
     ],
     "tclap-adapter": false,
@@ -134,9 +134,9 @@
     "range-v3-adapter": false,
     "NJOY21": [
         "ENDFtk",
-        {"name": "dimwits", "remote": "https://github.com/njoy/DimensionalAnalysis"} ,
+        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
         "lipservice",
-        {"name": "njoy", "remote": "https://github.com/njoy/NJOY2016"},
+        {"name": "njoy", "remote": "../../njoy/NJOY2016"},
         "njoy_c_bindings",
         "tclap-adapter",
         "utility"

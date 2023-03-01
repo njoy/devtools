@@ -60,10 +60,10 @@ class Dependency:
     def remote(self):
         """ The URL to the remote repository location.
 
-        This is typically a URL to GitHub, but there are of course
-        other places one can use.
+        This is typically a URL relative to where the repository is hosted, but of 
+        course not all repos are hosted on the same server.
 
-        If a name is given but not a remote, the NJOY GitHub project
+        If a name is given but not a remote, the NJOY project
         is assumed to be the location of the repository.  If no name is
         given, a remote must be provided.
 
@@ -75,7 +75,7 @@ class Dependency:
             if not self._name:
                 raise Exception(
                     'Dependency must have name and/or remote defined.')
-            return 'https://github.com/njoy/{}'.format(self.name)
+            return '../../njoy/{}'.format(self.name)
 
     @remote.setter
     def remote(self, value: str):
