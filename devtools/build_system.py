@@ -279,6 +279,8 @@ class BuildSystem:
                 f.write('\n    {}'.format(file_))
         f.write('\n    )\n\n')
 
+        f.write('add_library( njoy::{0} ALIAS {0} )\n\n'.format(self.name))
+
         f.write(
             'target_include_directories( {0} {1} ${{prefix}} )\n\n'
             ''.format(self.name, link_type)
@@ -350,6 +352,7 @@ class BuildSystem:
                 
                 install(EXPORT {0}-targets
                   FILE "{0}-targets.cmake"
+                  NAMESPACE njoy::
                   DESTINATION share/cmake/{0}
                 )
                 
