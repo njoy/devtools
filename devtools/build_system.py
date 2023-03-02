@@ -354,10 +354,12 @@ class BuildSystem:
                   NAMESPACE njoy::
                   DESTINATION share/cmake/{0}
                 )
+
+                string(TOLOWER {0} lowercasePackageName)
                 
                 configure_package_config_file(
-                  ${{CMAKE_CURRENT_SOURCE_DIR}}/cmake/{0}-config.cmake.in
-                  ${{CMAKE_BINARY_DIR}}/{0}-config.cmake
+                  ${{CMAKE_CURRENT_SOURCE_DIR}}/cmake/${{lowercasePackageName}}-config.cmake.in
+                  ${{CMAKE_BINARY_DIR}}/${{lowercasePackageName}}-config.cmake
                   INSTALL_DESTINATION share/cmake/{0}
                 )
                 
@@ -368,7 +370,7 @@ class BuildSystem:
                 )
                 
                 install(FILES
-                  "${{PROJECT_BINARY_DIR}}/{0}-config.cmake"
+                  "${{PROJECT_BINARY_DIR}}/${{lowercasePackageName}}-config.cmake"
                   DESTINATION share/cmake/{0}
                 )
                 
@@ -418,7 +420,7 @@ class BuildSystem:
         filename = os.path.join(
             self._path,
             'cmake',
-            "{}-config.cmake.in".format(self.name)
+            "{}-config.cmake.in".format(self.name.lower())
             )
 
         with open(filename, 'w') as f:
