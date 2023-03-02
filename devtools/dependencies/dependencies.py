@@ -97,7 +97,7 @@ class Dependencies:
             )
         for dependency in self.dependencies:
             if (dependency.name != "catch-adapter"):
-                f.write('    {}\n'.format(dependency.name))
+                f.write('    {}\n'.format(dependency.packageName))
         f.write('    )\n\n')
 
         # Only look for testing library if testing is enabled

@@ -39,7 +39,7 @@ class Dependency:
 
     @property
     def name(self):
-        """ The name of the repository, as referenced in the build system.
+        """ The name of the library, as referenced in dependencies.json.
 
         Typically, this is unnecessary to set, as the name can be implied
         from the remote.  But, for example, the repostiory
@@ -49,6 +49,35 @@ class Dependency:
 
         if self._name:
             return self._name
+        else:
+            return os.path.basename(self.remote)
+
+    @property
+    def libName(self):
+        """ The name of the library, as referenced in the build system.
+
+        This is the name used for linking and is typically namespaced.
+        E.g. njoy::dimwits
+
+        """
+
+        if self._name:
+            return self._name
+        else:
+            return "njoy::" + os.path.basename(self.remote)
+
+    @property
+    def packageName(self):
+        """ The name of the package, as referenced in the build system.
+
+        This is the name used for calls to find_package and is
+        either not namespaced or contains the namespace with a dash instead of semicolons.
+        E.g. dimwits instead of njoy::dimwits.
+
+        """
+
+        if self._name:
+            return self._name.split(':')[-1]
         else:
             return os.path.basename(self.remote)
 
@@ -75,7 +104,7 @@ class Dependency:
             if not self._name:
                 raise Exception(
                     'Dependency must have name and/or remote defined.')
-            return '../../njoy/{}'.format(self.name)
+            return '../../njoy/{}'.format(self.packageName)
 
     @remote.setter
     def remote(self, value: str):
@@ -138,11 +167,11 @@ class Dependency:
         """
 
         result = dedent("""\
-            shacl_FetchContent_Declare( {name}
+            shacl_FetchContent_Declare( {packageName}
                 GIT_REPOSITORY  {remote}
                 GIT_TAG         {tag}
             """).format(
-                name=self.name,
+                packageName=self.packageName,
                 remote=self.remote,
                 tag=self.tag
                 )

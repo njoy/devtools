@@ -1,23 +1,23 @@
 {
     "ENDFtk": [
-        "Log",
+        "njoy::Log",
         "catch-adapter",
-        "disco",
+        "njoy::disco",
         "hana-adapter",
-        "header-utilities",
-        {"name": "range-v3",
+        "njoy::header-utilities",
+        {"name": "range-v3::range-v3",
          "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"}
     ],
     "ACEtk": [
-        "Log",
+        "njoy::Log",
         "catch-adapter",
-        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
-        "disco",
-        "interpolation",
+        {"name": "njoy::dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
+        "njoy::disco",
+        "njoy::interpolation",
         "hana-adapter",
-        "header-utilities",
-        {"name": "range-v3",
+        "njoy::header-utilities",
+        {"name": "range-v3::range-v3",
          "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"}
     ],
@@ -33,13 +33,14 @@
     ],
     "Log": [
         "catch-adapter",
-        {"remote": "../../gabime/spdlog",
+        {"name": "spdlog",
+         "remote": "../../gabime/spdlog",
          "tag": "a51b4856377a71f81b6d74b9af459305c4c644f8",
          "setup": "set( SPDLOG_BUILD_TESTING CACHE BOOL OFF )"}
     ],
     "GNDStk": [
         "catch-adapter",
-        "Log",
+        "njoy::Log",
         "pugixml-adapter",
         {"name": "nlohmann_json",
          "remote": "../../nlohmann/json",
@@ -60,17 +61,17 @@
         "catch-adapter",
         "constants",
         "resonanceReconstruction",
-        "Log",
+        "njoy::Log",
         "twig",
-        "interpolation",
-        "elementary"
+        "njoy::interpolation",
+        "njoy::elementary"
     ],
     "catch-adapter": false,
     "constants": [
         "range-v3-adapter",
         "catch-adapter",
-        "Log",
-        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"}
+        "njoy::Log",
+        {"name": "njoy::dimwits", "remote": "../../njoy/DimensionalAnalysis"}
     ],
     "dimwits": [
         "catch-adapter",
@@ -85,15 +86,15 @@
     "hana-adapter": false,
     "header-utilities": [
         "catch-adapter",
-        "Log"
+        "njoy::Log"
     ],
     "interpolation": [
-        {"name": "range-v3",
+        {"name": "range-v3::range-v3",
          "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"},
-        "Log",
-        "header-utilities",
-        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"}
+        "njoy::Log",
+        "njoy::header-utilities",
+        {"name": "njoy::dimwits", "remote": "../../njoy/DimensionalAnalysis"}
     ],
     "lipservice": [
         "ENDFtk",
@@ -109,7 +110,7 @@
         {"name": "njoy", "remote": "../../njoy/NJOY2016"}
     ],
     "resonanceReconstruction": [
-        {"name": "range-v3",
+        {"name": "range-v3::range-v3",
          "remote": "../../ericniebler/range-v3",
          "tag": "0.11.0"},
         "ENDFtk",
@@ -117,9 +118,9 @@
          "remote": "https://gitlab.com/libeigen/eigen.git",
          "tag": "3.3.8",
          "setup": "set(BUILD_TESTING OFF CACHE BOOL OFF )"},
-        "interpolation",
-        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"},
-        "elementary"
+        "njoy::interpolation",
+        {"name": "njoy::dimwits", "remote": "../../njoy/DimensionalAnalysis"},
+        "njoy::elementary"
     ],
     "tclap-adapter": false,
     "eigen-adapter": false,
@@ -129,12 +130,12 @@
     ],
     "utility": [
         "catch-adapter",
-        "header-utilities"
+        "njoy::header-utilities"
     ],
     "range-v3-adapter": false,
     "NJOY21": [
         "ENDFtk",
-        {"name": "dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
+        {"name": "njoy::dimwits", "remote": "../../njoy/DimensionalAnalysis"} ,
         "lipservice",
         {"name": "njoy", "remote": "../../njoy/NJOY2016"},
         "njoy_c_bindings",

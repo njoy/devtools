@@ -288,14 +288,13 @@ class BuildSystem:
 
         # see if the dependencies list needs to be written
         need_to_write_link_libraries_list  = (self.dependencies and 
-                                  not any(dependency.name == "spdlog" for dependency in self.dependencies) and
-                                  not any(dependency.name == "catch-adapter" for dependency in self.dependencies))
+                                  any(dependency.name != "spdlog" and dependency.name != "catch-adapter" for dependency in self.dependencies))
 
         if need_to_write_link_libraries_list:
             f.write('target_link_libraries( {}\n'.format(self.name))
             for d in self.dependencies:
                 if (d.name != "spdlog" and d.name != "catch-adapter"):
-                    f.write('    {0} {1}\n'.format(link_type, d.name))
+                    f.write('    {0} {1}\n'.format(link_type, d.libName))
             f.write('    )\n\n')
 
         if (any(dependency.name == "spdlog" for dependency in self.dependencies)):
@@ -434,8 +433,8 @@ class BuildSystem:
                         f.write('    find_dependency(spdlog)\n')
                         f.write('endif()\n\n')
                     else:
-                        f.write('if (NOT TARGET {0})\n'.format(d.name))
-                        f.write('    find_dependency({0})\n'.format(d.name))
+                        f.write('if (NOT TARGET {0})\n'.format(d.libName))
+                        f.write('    find_dependency({0})\n'.format(d.packageName))
                         f.write('endif()\n\n')
 
             f.write("""include("${{CMAKE_CURRENT_LIST_DIR}}/{}-targets.cmake")""".format(self.name))
