@@ -108,13 +108,13 @@ def make_build_system(args):
             args.build_dir,
             '_deps'
             )
-        b.dependencies = ReleaseDependencies(deps_path, b.dependencies)
+        b.dependencies = ReleaseDependencies(deps_path)
 
 
 
     b.write_dependencies()
-    b.write_installation_dependencies()
     if not args.release:
+        b.write_installation_dependencies()
         b.write_cmakelists()
         b.write_test_list()
 
