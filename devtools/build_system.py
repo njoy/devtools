@@ -227,7 +227,7 @@ class BuildSystem:
                 # Dependencies
                 ########################################################################
                 
-                set( REPOSITORIES "release"
+                set( REPOSITORIES "develop"
                     CACHE STRING
                     "Options for where to fetch repositories: develop, release, local"
                     )
