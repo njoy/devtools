@@ -90,30 +90,31 @@ def make_build_system(args):
         args.name
         ) 
 
+
+    # Dependencies are given in an input JSON file
+    with open(args.dependencies, 'r') as f:
+        dependencies = json.load(f)
+
+    deps = dependencies[b.name]
+    if deps:
+        b.dependencies = deps
+
     if args.release:
-        # Release dependencies are taken from examining the
-        # build/_deps folder
-
-        b.dependencies = ReleaseDependencies(
-            os.path.join(
-                args.path,
-                args.build_dir,
-                '_deps'
-                )
+        # Release dependencies are the same as the develop dependencies
+        # but with the hashes taken from examining the
+        # checked-out hash in the build/_deps folder 
+        deps_path = os.path.join(
+            args.path,
+            args.build_dir,
+            '_deps'
             )
+        b.dependencies = ReleaseDependencies(deps_path)
 
-    else:
-        # Develop dependencies are given in an input JSON file
 
-        with open(args.dependencies, 'r') as f:
-            dependencies = json.load(f)
-
-        deps = dependencies[b.name]
-        if deps:
-            b.dependencies = deps
 
     b.write_dependencies()
     if not args.release:
+        b.write_installation_dependencies()
         b.write_cmakelists()
         b.write_test_list()
 

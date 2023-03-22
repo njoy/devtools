@@ -58,7 +58,7 @@ class Dependencies:
                     'Cannot register an object other than a Dependency.')
             self._dependencies.append(dep)
 
-    def cmake_file(self, filename):
+    def cmake_file(self, filename, libName):
         """ Write the dependency information to a CMake file.
 
         """
@@ -67,8 +67,9 @@ class Dependencies:
 
         # preamble
         f.write(dedent("""\
-            cmake_minimum_required( VERSION 3.14 )
-            include( FetchContent )
+            cmake_minimum_required( VERSION 3.24 )
+            list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/.cmake)
+            include( shacl_FetchContent )
 
             """)
             )
@@ -91,12 +92,19 @@ class Dependencies:
             # Load dependencies
             #######################################################################
             
-            FetchContent_MakeAvailable(
+            shacl_FetchContent_MakeAvailable(
             """)
             )
         for dependency in self.dependencies:
-            f.write('    {}\n'.format(dependency.name))
-        f.write('    )\n')
+            if (dependency.name != "catch-adapter"):
+                f.write('    {}\n'.format(dependency.packageName))
+        f.write('    )\n\n')
+
+        # Only look for testing library if testing is enabled
+        if (any(dependency.name == "catch-adapter" for dependency in self.dependencies)):
+            f.write('if (${{{0}_unit_tests}})\n'.format(libName))
+            f.write('    shacl_FetchContent_MakeAvailable(catch-adapter)\n')
+            f.write('endif()\n\n')
 
         f.close()
 
@@ -106,4 +114,4 @@ if __name__ == '__main__':
 
     d = Dependencies()
     d.add_dependencies(d1, d2)
-    d.cmake_file('blah.cmake')      
+    d.cmake_file('blah.cmake', 'libraryName')      

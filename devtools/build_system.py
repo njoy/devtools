@@ -57,6 +57,15 @@ class BuildSystem:
             return os.path.basename(self._path)
 
     @property
+    def testName(self):
+        """ The name of the interface library used for testing dependencies, derived from the name
+
+        """
+
+        return self.name + "_testing"
+
+
+    @property
     def dependencies(self):
         """ List of dependencies.
 
@@ -128,16 +137,25 @@ class BuildSystem:
                 # Setup
                 #######################################################################
 
-                message( STATUS "Adding {} unit testing" )
-                enable_testing()
+                message( STATUS "Adding {0} unit testing" )
 
+                add_library( {1} INTERFACE )
+                target_link_libraries( {1} INTERFACE {0} )
 
+                """.format(self.name, self.testName))
+                )
+
+            # this expects catch-adapter to be used for the testing library and should be updated if this is replaced with another lib (e.g. Catch2)
+            if (any(dependency.name == "catch-adapter" for dependency in self.dependencies)):
+                f.write('target_link_libraries({0} INTERFACE catch-adapter)\n'.format(self.testName))
+
+            f.write(dedent("""
                 #######################################################################
                 # Unit testing directories
                 #######################################################################
 
-                """.format(self.name))
-                )
+                """))
+
 
             for dir_ in test_directories:
                 f.write('add_subdirectory( {} )\n'.format(dir_))
@@ -159,9 +177,15 @@ class BuildSystem:
             ########################################################################
             # Preamble
             ########################################################################
+
+            set(subproject OFF)
+            if(DEFINED PROJECT_NAME)
+              set(subproject ON)
+            endif()
             
-            cmake_minimum_required( VERSION 3.14 )
+            cmake_minimum_required( VERSION 3.24 )
             project( {0} LANGUAGES CXX )
+
             
             
             ########################################################################
@@ -171,8 +195,15 @@ class BuildSystem:
             set( CMAKE_CXX_STANDARD 17 )
             set( CMAKE_CXX_STANDARD_REQUIRED YES )
             
-            option( {0}_unit_tests
+            include(CTest)
+            include(CMakeDependentOption)
+
+            cmake_dependent_option( {0}_unit_tests
                 "Compile the {0} unit tests and integrate with ctest" ON
+                BUILD_TESTING AND NOT ${{subproject}}
+            )
+            option( {0}_installation
+                "Install {0}" ON
                 )
             option( strict_compile
                 "Treat all warnings as errors." ON
@@ -196,13 +227,11 @@ class BuildSystem:
                 # Dependencies
                 ########################################################################
                 
-                set( REPOSITORIES "release"
+                set( REPOSITORIES "develop"
                     CACHE STRING
                     "Options for where to fetch repositories: develop, release, local"
                     )
                 
-                message( STATUS "Using ${{REPOSITORIES}} repositories" )
-
                 if( REPOSITORIES STREQUAL "develop" )
                     include( cmake/develop_dependencies.cmake )
                 
@@ -223,6 +252,12 @@ class BuildSystem:
             ########################################################################
             # Project targets
             ########################################################################
+            include(GNUInstallDirs)
+
+            string( CONCAT prefix
+              "$<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/src>"
+              "$<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>"
+            )
                 
             """)
             )
@@ -242,18 +277,33 @@ class BuildSystem:
         else:
             for file_ in self._tree.list_compiled_source():
                 f.write('\n    {}'.format(file_))
-        f.write('\n    )\n')
+        f.write('\n    )\n\n')
+
+        f.write('add_library( njoy::{0} ALIAS {0} )\n\n'.format(self.name))
 
         f.write(
-            'target_include_directories( {0} {1} src/ )\n'
+            'target_include_directories( {0} {1} ${{prefix}} )\n\n'
             ''.format(self.name, link_type)
             )
 
-        if self.dependencies:
+        # see if the dependencies list needs to be written
+        need_to_write_link_libraries_list  = (self.dependencies and 
+                                  any(dependency.name != "spdlog" and dependency.name != "catch-adapter" for dependency in self.dependencies))
+
+        if need_to_write_link_libraries_list:
             f.write('target_link_libraries( {}\n'.format(self.name))
             for d in self.dependencies:
-                f.write('    {0} {1}\n'.format(link_type, d.name))
-            f.write('    )\n')
+                if (d.name != "spdlog" and d.name != "catch-adapter"):
+                    f.write('    {0} {1}\n'.format(link_type, d.libName))
+            f.write('    )\n\n')
+
+        if (any(dependency.name == "spdlog" for dependency in self.dependencies)):
+            f.write('# treat spdlog specially due to mixed namespace usage\n')
+            f.write('if (TARGET spdlog::spdlog)\n')
+            f.write('    target_link_libraries({0} {1} spdlog::spdlog)\n'.format(self.name, link_type))
+            f.write('else()\n')
+            f.write('    target_link_libraries({0} {1} spdlog)\n'.format(self.name, link_type))
+            f.write('endif()\n\n')
 
         if not self._tree.header_only:
             f.write(dedent("""\
@@ -277,11 +327,60 @@ class BuildSystem:
             if( CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR )
             
                 # unit testing
-                if( {}_unit_tests )
+                if( ${{{}_unit_tests}} )
                     include( cmake/unit_testing.cmake )
                 endif()
             
             endif()
+            """.format(self.name))
+            )
+
+        f.write(dedent("""\
+            #######################################################################
+            # Installation 
+            #######################################################################
+
+            if({0}_installation)
+                include(CMakePackageConfigHelpers)
+                
+                install(TARGETS {0} EXPORT {0}-targets
+                  ARCHIVE DESTINATION "${{CMAKE_INSTALL_LIBDIR}}"
+                  LIBRARY DESTINATION "${{CMAKE_INSTALL_LIBDIR}}"
+                  RUNTIME DESTINATION "${{CMAKE_INSTALL_BINDIR}}"
+                )
+                
+                install(EXPORT {0}-targets
+                  FILE "{0}-targets.cmake"
+                  NAMESPACE njoy::
+                  DESTINATION share/cmake/{0}
+                )
+
+                string(TOLOWER {0} lowercasePackageName)
+                
+                configure_package_config_file(
+                  ${{CMAKE_CURRENT_SOURCE_DIR}}/cmake/${{lowercasePackageName}}-config.cmake.in
+                  ${{PROJECT_BINARY_DIR}}/${{lowercasePackageName}}-config.cmake
+                  INSTALL_DESTINATION share/cmake/{0}
+                )
+                
+                install(DIRECTORY src/
+                  DESTINATION "${{CMAKE_INSTALL_INCLUDEDIR}}"
+                  FILES_MATCHING PATTERN "*.hpp"
+                  PATTERN "*test*" EXCLUDE
+                )
+                
+                install(FILES
+                  "${{PROJECT_BINARY_DIR}}/${{lowercasePackageName}}-config.cmake"
+                  DESTINATION share/cmake/{0}
+                )
+                
+                if(NOT subproject)
+                  set(CPACK_PACKAGE_VENDOR "Los Alamos National Laboratory")
+                  set(CPACK_RESOURCE_FILE_LICENSE "${{CMAKE_CURRENT_SOURCE_DIR}}/LICENSE")
+                  include(CPack)
+                endif()
+            endif()
+            
             """.format(self.name))
             )
 
@@ -312,9 +411,36 @@ class BuildSystem:
             os.path.join(
                 self._path,
                 'cmake',
-                filename
-                )
+                filename,
+                ),
+                self.name
             )
+    
+    def write_installation_dependencies(self):
+        filename = os.path.join(
+            self._path,
+            'cmake',
+            "{}-config.cmake.in".format(self.name.lower())
+            )
+
+        with open(filename, 'w') as f:
+            f.write("include(CMakeFindDependencyMacro)\n\n")
+
+            for d in self.dependencies:
+                # Don't include catch as an installation dependency
+                if (d.name != "catch-adapter"): 
+                    # Treat spdlog specially since its installed target is namespaced
+                    if (d.name == "spdlog"): 
+                        f.write('if (NOT TARGET spdlog::spdlog)\n')
+                        f.write('    find_dependency(spdlog)\n')
+                        f.write('endif()\n\n')
+                    else:
+                        f.write('if (NOT TARGET {0})\n'.format(d.libName))
+                        f.write('    find_dependency({0})\n'.format(d.packageName))
+                        f.write('endif()\n\n')
+
+            f.write("""include("${{CMAKE_CURRENT_LIST_DIR}}/{}-targets.cmake")""".format(self.name))
+
 
 
     ###################################################################
@@ -394,7 +520,7 @@ class BuildSystem:
                 target_link_libraries( {0}.test
                     PUBLIC {1}
                     )
-                """.format(testname, self.name))
+                """.format(testname, self.testName))
                 )
     
             # compile options
